@@ -34,14 +34,14 @@ $nama = $_SESSION['username'];
     <div class="container-fluid bg-info">
         <div class="navbar1 row justify-content-center">
             <div class="col-sm-4 text-center mt-1">
-                <a href="index.php"><button class="btn btn-outline-danger" style="width: 75px;"><img src="img/backspace.svg" alt=""></button></a>
+                <a href="index.php"><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kembali ke Halaman Utama" style="width: 75px;"><img src="img/backspace.svg" alt=""></button></a>
             </div>
             <div class="col-sm-4 text-center mt-1">
-                <h3><button class="btn btn-outline-danger" id="belum" style="width: 75px;"><img src="img/calendar3.svg" alt=""></button></h3>
+                <h3><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pilih Bulan dan Tahun" id="belum" style="width: 75px;"><img src="img/calendar3.svg" alt=""></button></h3>
             </div>
-            <!-- <div class="col-sm-4 text-center mt-1">
-                <a href="#"><button class="btn btn-outline-danger"><img src="img/printer.svg" alt=""></button></a>
-            </div> -->
+            <div class="col-sm-4 text-center mt-1">
+                <a href="#"><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cetak File" id="cetak" style="width: 75px;"><img src="img/printer.svg" alt=""></button></a>
+            </div>
         </div>
     </div>
     <br>
@@ -152,6 +152,7 @@ $nama = $_SESSION['username'];
         const tombol_belum = document.getElementById('belum');
         const tombol_pilih = document.getElementById('tombol_pilih');
         const tabel = document.getElementById('tabel');
+        const cetak = document.getElementById('cetak');
 
         tombol_belum.addEventListener('click', function() {
             if (tanya.style.display == "none") {
@@ -163,6 +164,9 @@ $nama = $_SESSION['username'];
                 tanya.style.display = "none";
             }
         });
+        cetak.addEventListener('click', function() {
+            window.print();
+        })
     </script>
     <script src="js/bootstrap.bundle.js" crossorigin="anonymous"></script>
 </body>

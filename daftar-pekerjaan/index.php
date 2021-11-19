@@ -16,38 +16,41 @@ if (isset($_POST["add_post"])) {
     $query = mysqli_query($con, "SELECT * FROM $table WHERE $bulan = bulan AND $tahun = tahun ");
     header("Location: cetak.php");
 }
-// if (isset($_GET['edit'])) {
 
-//     $id_task = $_GET['edit'];
-//     $query = mysqli_query($con, "UPDATE $table SET status_task1 = 'NULL',status_task2 = 'Selesai',date_task2 = now() Where id_task = '$id_task'");
-//     header("Location: index.php");
-// }
-// if (isset($_GET['reset'])) {
-
-//     $id_task = $_GET['reset'];
-//     $query = mysqli_query($con, "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table',status_task1,status_task2,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'");
-//     header("Location: index.php");
-// }
 if (isset($_GET['edit'])) {
 
     $id_task = $_GET['edit'];
     $query_update = "UPDATE $table SET status_task1 = 'NULL',status_task2 = 'Selesai',date_task2 = now() Where id_task = '$id_task'";
+    $update = mysqli_query($con, $query_update);
 
-    // $query_insert = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
+    $query_data = mysqli_query($con, "SELECT * FROM $list");
+    while ($row = mysqli_fetch_assoc($query_data)) {
+        $name_task = $row['name_task'];
+    };
 
     $query_insert = "INSERT INTO $list (name_task,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'Pending',NULL,NULL,NULL,NULL,NULL FROM $table WHERE id_task = '$id_task'";
-
-    $update = mysqli_query($con, $query_update);
     $insert = mysqli_query($con, $query_insert);
+
+
+    $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
+    $insert_list = mysqli_query($con, $query_list);
+
     header("Location: index.php");
 }
 
+if (isset($_GET['view'])) {
 
-if (isset($_GET['tampil'])) {
-    $id_task = $_GET['tampil'];
-    $query = mysqli_query($con, "SELECT * FROM $list WHERE id_task = '$id_task'");
+    $query_data = mysqli_query($con, "SELECT * FROM $list");
+    while ($row = mysqli_fetch_assoc($query_data)) {
+        $name_task = $row['name_task'];
+    };
+
+    $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM $list";
+    $insert = mysqli_query($con, $query_insert);
+
     header("Location: index.php");
 }
+
 if (isset($_GET['delete'])) {
     $id_task = $_GET['delete'];
     $query = mysqli_query($con, "DELETE FROM $table WHERE id_task = '$id_task'");
@@ -92,7 +95,7 @@ if (isset($_GET['delete'])) {
             </div>
             <div class="col-sm-1 mt-1 text-end">
                 <a href="#">
-                    <button class="btn btn-outline-danger" type="submit" id="tombol">Logout</button>
+                    <button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Anda Akan Keluar" type="submit" id="tombol">Logout</button>
                 </a>
             </div>
         </div>
@@ -105,12 +108,12 @@ if (isset($_GET['delete'])) {
                 <div class="card bg-danger shadow-lg border-0 text-center">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-9">
+                            <div class="col-sm-10">
                                 <h3 class="text-light text-center">Daftar Tunggu Pekerjaan</h3>
                             </div>
-                            <div class="col-sm-3 text-end">
+                            <div class="col-sm-2 text-end">
                                 <a href="#">
-                                    <button class="btn btn-outline-light" type="submit">Ambil Data</button>
+                                    <button class="btn btn-outline-light" id="ambil_data" type="submit"> Data</button>
                                 </a>
                             </div>
                         </div>
@@ -121,14 +124,14 @@ if (isset($_GET['delete'])) {
                                 $id_task = $row['id_task'];
                                 $name_task = $row['name_task'];
                             ?>
-                                <li class="daftar list-group-item">
+                                <li class="list-group-item">
                                     <?php echo $name_task; ?>
                                     <div style="float: right;">
                                         <!-- <a href="index.php?reset=<?php echo $id_task ?>">
                                             <span class="reset badge bg-danger">reset</span>
                                         </a> -->
                                         <a href="index.php?edit=<?php echo $id_task ?>">
-                                            <span class="proses badge bg-danger">Proses</span>
+                                            <span class="proses badge bg-danger">Proses Baru</span>
                                         </a>
                                     </div>
                                 </li>
@@ -139,14 +142,14 @@ if (isset($_GET['delete'])) {
                                 $id_task = $row['id_task'];
                                 $name_task = $row['name_task'];
                             ?>
-                                <li class="daftar list-group-item">
+                                <li class="daftar list-group-item" style="display: none;">
                                     <?php echo $name_task; ?>
                                     <div style="float: right;">
                                         <!-- <a href="index.php?reset=<?php echo $id_task ?>">
                                             <span class="reset badge bg-danger">reset</span>
                                         </a> -->
-                                        <a href="index.php?edit=<?php echo $id_task ?>">
-                                            <span class="proses badge bg-danger">Proses</span>
+                                        <a href="index.php?view=<?php echo $id_task ?>">
+                                            <span class="proses2 badge bg-danger">Proses</span>
                                         </a>
                                     </div>
                                 </li>
@@ -225,30 +228,31 @@ if (isset($_GET['delete'])) {
 
         const proses = document.querySelectorAll('a .proses');
         for (let i = 0; i < proses.length; i++) {
-            const daftar = document.getElementsByClassName('daftar');
-            for (let i = 0; i < daftar.length; i++) {
-
-            }
             proses[i].addEventListener('mouseover', function() {
                 proses[i].innerHTML = "Pekerjaan telah Selesai";
             });
             proses[i].addEventListener('mouseleave', function() {
-                proses[i].innerHTML = "Proses";
+                proses[i].innerHTML = "Proses Baru";
             });
         }
-        const reset = document.querySelectorAll('a .reset');
-        for (let i = 0; i < reset.length; i++) {
-            const daftar = document.getElementsByClassName('daftar');
-            for (let i = 0; i < daftar.length; i++) {
 
-            }
-            reset[i].addEventListener('mouseover', function() {
-                reset[i].innerHTML = "Lakukan Reset";
+        const proses2 = document.querySelectorAll('a .proses2');
+        for (let i = 0; i < proses2.length; i++) {
+            proses2[i].addEventListener('mouseover', function() {
+                proses2[i].innerHTML = "Pekerjaan telah Selesai";
             });
-            reset[i].addEventListener('mouseleave', function() {
-                reset[i].innerHTML = "reset";
+            proses2[i].addEventListener('mouseleave', function() {
+                proses2[i].innerHTML = "Proses";
             });
         }
+
+        const ambil_data = document.getElementById('ambil_data');
+        ambil_data.addEventListener('click', function() {
+            const daftar = document.querySelectorAll('.daftar');
+            for (let i = 0; i < daftar.length; i++) {
+                daftar[i].style.display = 'block';
+            }
+        });
     </script>
 
 
