@@ -15,7 +15,7 @@ function registrasi($data)
     $sub_bagian = strtoupper(stripcslashes($data['sub_bagian']));
     $jabatan = strtoupper(stripcslashes($data['jabatan']));
 
-    // cek duplikasi email
+    // cek duplikasi username
     $result = mysqli_query($con, "SELECT username FROM user WHERE username = '$username'");
     if (mysqli_fetch_assoc($result)) {
         return false;

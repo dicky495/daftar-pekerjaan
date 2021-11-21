@@ -10,12 +10,6 @@ require "function.php";
 
 $table = trim(substr($_SESSION['username'], 0, 6));
 $list = trim(substr($_SESSION["username"], 0, 6)) . '_list';
-if (isset($_POST["add_post"])) {
-    $tahun = $_POST['tahun'];
-    $bulan = $_POST['bulan'];
-    $query = mysqli_query($con, "SELECT * FROM $table WHERE $bulan = bulan AND $tahun = tahun ");
-    header("Location: cetak.php");
-}
 
 if (isset($_GET['edit'])) {
 
@@ -23,33 +17,47 @@ if (isset($_GET['edit'])) {
     $query_update = "UPDATE $table SET status_task1 = 'NULL',status_task2 = 'Selesai',date_task2 = now() Where id_task = '$id_task'";
     $update = mysqli_query($con, $query_update);
 
-    $query_data = mysqli_query($con, "SELECT * FROM $list");
-    while ($row = mysqli_fetch_assoc($query_data)) {
-        $name_task = $row['name_task'];
-    };
-
-    $query_insert = "INSERT INTO $list (name_task,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'Pending',NULL,NULL,NULL,NULL,NULL FROM $table WHERE id_task = '$id_task'";
-    $insert = mysqli_query($con, $query_insert);
-
-
     $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
     $insert_list = mysqli_query($con, $query_list);
 
     header("Location: index.php");
 }
 
-if (isset($_GET['view'])) {
+// if (isset($_GET['view'])) {
+//     $id_task = $_GET['view'];
+//     $query_data = mysqli_query($con, "SELECT * FROM $list");
+//     while ($row = mysqli_fetch_assoc($query_data)) {
+//         $name_task = $row['name_task'];
+//     };
 
-    $query_data = mysqli_query($con, "SELECT * FROM $list");
-    while ($row = mysqli_fetch_assoc($query_data)) {
-        $name_task = $row['name_task'];
-    };
+//     $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM $list";
+//     $insert = mysqli_query($con, $query_insert);
 
-    $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM $list";
-    $insert = mysqli_query($con, $query_insert);
+//     header("Location: index.php");
+// }
 
-    header("Location: index.php");
+// $bulanini = date('m');
+
+$query = mysqli_query($con, "SELECT * FROM $table");
+while ($row = mysqli_fetch_assoc($query)) {
+    $bulan = $row['bulan'];
+    $tahun = $row['tahun'];
 }
+if (isset($_POST["ambil_data"])) {
+    $bulan = $_POST['bulan'];
+    $cek = mysqli_num_rows(mysqli_query($con, "SELECT * FROM $table WHERE bulan = '$bulan' "));
+    if ($cek > 0) {
+        // echo "<script>window.alert('daftar pekerjaan yang anda masukan sudah ada')
+        // window.location='index.php'</script>";
+        $error = true;
+    } else {
+        $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM $list ";
+        $insert = mysqli_query($con, $query_insert);
+        header("Location: index.php");
+        exit;
+    }
+}
+
 
 if (isset($_GET['delete'])) {
     $id_task = $_GET['delete'];
@@ -104,19 +112,28 @@ if (isset($_GET['delete'])) {
     <div class="container-fluid">
         <div class="row g-1">
             <div class="col-md-6">
-                <!-- pending todolist -->
+                <!-- pending Pekerjaan -->
                 <div class="card bg-danger shadow-lg border-0 text-center">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-10">
-                                <h3 class="text-light text-center">Daftar Tunggu Pekerjaan</h3>
+                            <div class="col-sm-8">
+                                <h3 class="text-light text-end">Daftar Tunggu Pekerjaan</h3>
                             </div>
-                            <div class="col-sm-2 text-end">
-                                <a href="#">
-                                    <button class="btn btn-outline-light" id="ambil_data" type="submit"> Data</button>
-                                </a>
+                            <div class="col-sm-4 text-end">
+                                <form action="" method="post">
+                                    <input type="hidden" name="bulan" value="<?php echo date('m'); ?>" />
+                                    <button class="btn btn-outline-light" id="ambil_data" type="submit" name="ambil_data">Ambil Data</button>
+                                </form>
+                                <!-- <button class="btn btn-outline-light" id="ambil_data" type="submit" name="ambil_data"> Data</button> -->
                             </div>
                         </div>
+                        <!-- alert untuk error -->
+                        <?php if (isset($error)) : ?>
+                            <div class="alert alert-warning alert-dismissible fade show text-danger" role="alert">
+                                <strong>Ambil Data Gagal</strong><br> Daftar pekerjaan yang anda masukan sudah ada
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php endif; ?>
                         <ul class="list-group text-start">
                             <?php
                             $query = mysqli_query($con, "SELECT * FROM $table WHERE status_task1 = 'Pending'");
@@ -246,13 +263,16 @@ if (isset($_GET['delete'])) {
             });
         }
 
-        const ambil_data = document.getElementById('ambil_data');
-        ambil_data.addEventListener('click', function() {
-            const daftar = document.querySelectorAll('.daftar');
-            for (let i = 0; i < daftar.length; i++) {
-                daftar[i].style.display = 'block';
-            }
-        });
+        // const ambil_data = document.getElementById('ambil_data');
+        // ambil_data.addEventListener('click', function() {
+        //     const daftar = document.querySelectorAll('.daftar');
+        //     for (let i = 0; i < daftar.length; i++) {
+        //         daftar[i].style.display = 'block';
+        //     }
+        // });
+
+        // let bulan = (new Date().getMonth() + 2).toString().padStart(2, "0");
+        // console.log(bulan);
     </script>
 
 

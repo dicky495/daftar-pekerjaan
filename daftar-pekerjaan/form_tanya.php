@@ -9,11 +9,15 @@ if (!isset($_SESSION["login"])) {
 require "function.php";
 
 $table = trim(substr($_SESSION['username'], 0, 6));
+$list = trim(substr($_SESSION["username"], 0, 6)) . '_list';
 if (isset($_POST["add_post"])) {
 
     $name_task = mysqli_real_escape_string($con, $_POST['name_task']);
 
     $query = mysqli_query($con, "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
+
+    $query = mysqli_query($con, "INSERT INTO $list (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
+
     header("Location: index.php");
 }
 ?>
