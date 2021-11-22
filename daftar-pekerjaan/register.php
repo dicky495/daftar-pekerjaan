@@ -13,7 +13,7 @@ if (isset($_POST["register"])) {
 }
 
 if (isset($_POST["register"])) {
-    $table = trim(substr($_POST["username"], 0, 6));
+    $table = $_POST["username"];
     $query  = "CREATE TABLE $table (id_task INT(10) AUTO_INCREMENT, ";
     $query .= "name_task VARCHAR(50),";
     $query .= "status_task1 VARCHAR(50), ";
@@ -24,7 +24,7 @@ if (isset($_POST["register"])) {
     $query .= "date_task2 DATE, PRIMARY KEY (id_task))";
     $hasil_query = mysqli_query($con, $query);
 
-    $list = trim(substr($_POST["username"], 0, 6)) . '_list';
+    $list = $_POST["username"] . '_list';
     $query2  = "CREATE TABLE $list (id_task INT(10) AUTO_INCREMENT, ";
     $query2 .= "name_task VARCHAR(50),";
     $query2 .= "status_task1 VARCHAR(50), ";
@@ -34,6 +34,19 @@ if (isset($_POST["register"])) {
     $query2 .= "date_task1 DATE,";
     $query2 .= "date_task2 DATE, PRIMARY KEY (id_task))";
     $hasil_query = mysqli_query($con, $query2);
+
+    $_SESSION['nama_depan'] = strtoupper($nama_depan);
+    $_SESSION['nama_belakang'] = strtoupper($nama_belakang);
+    $_SESSION['username'] = strtoupper($username);
+    $_SESSION['tgl_lahir'] = $tgl_lahir;
+    $_SESSION['tempat_lahir'] = $tempat_lahir;
+    $_SESSION['jenkel'] = $jenkel;
+    $_SESSION['no_hp'] = $no_hp;
+    $_SESSION['nik'] = $nik;
+    $_SESSION['bagian'] = strtoupper($bagian);
+    $_SESSION['sub_bagian'] = strtoupper($sub_bagian);
+    $_SESSION['jabatan'] = strtoupper($jabatan);
+    $_SESSION['agama'] = $agama;
 }
 
 ?>
@@ -69,7 +82,7 @@ if (isset($_POST["register"])) {
                     <!-- alert untuk error -->
                     <?php if (isset($error)) : ?>
                         <div class="alert alert-warning alert-dismissible fade show text-danger" role="alert">
-                            <strong>Nama sudah terdaftar</strong><br> Silakan Registrasi Ulang
+                            <strong>Nama Panggilan sudah terdaftar</strong><br> Silakan gunakan nama yang lain
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     <?php endif; ?>
@@ -78,54 +91,121 @@ if (isset($_POST["register"])) {
                             <h1>REGISTER</h1>
                         </div>
                         <div class="mb-1 form-group row">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Nama" required>
+                            <div class="col g-0">
+                                <input type="text" class="form-control" id="nama_depan" name="nama_depan" placeholder="Nama depan" required>
+                            </div>
+                            <div class="col g-0">
+                                <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" placeholder="Nama belakang" required>
+                            </div>
+                        </div>
+                        <div class="mb-1 form-group row">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Nama panggilan" required>
                         </div>
                         <div class="mb-1 form-group row">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required>
                         </div>
                         <div class="mb-1 form-group row">
-                            <select class="form-select" name="bagian" id="bagian" required>
-                                <option value="">Bagian</option>
-                                <option value="Langganan">Langganan</option>
-                                <option value="Umum">Umum</option>
-                                <option value="Keuangan">Keuangan</option>
-                                <option value="Pemeliharaan">Pemeliharaan</option>
-                                <option value="Perencanaan">Perencanaan</option>
-                                <option value="SPI">SPI</option>
-                                <option value="IT">IT</option>
-                                <option value="AMDK">AMDK</option>
-                            </select>
+                            <div class="col g-0">
+                                <select class="form-select" name="bagian" id="bagian" required>
+                                    <option value="">Bagian / UPK</option>
+                                    <option value="Langganan">Langganan</option>
+                                    <option value="U m u m">U m u m</option>
+                                    <option value="Keuangan">Keuangan</option>
+                                    <option value="Pemeliharaan">Pemeliharaan</option>
+                                    <option value="Perencanaan">Perencanaan</option>
+                                    <option value="S P I">S P I</option>
+                                    <option value="U P K">U P K</option>
+                                    <option value="A M D K">A M D K</option>
+                                </select>
+                            </div>
+                            <div class="col g-0">
+                                <select class="form-select" name="sub_bagian" id="sub_bagian" required>
+                                    <option value="">Sub Bagian / UPK</option>
+                                    <option value="Langganan">Langganan</option>
+                                    <option value="Penagihan">Penagihan</option>
+                                    <option value="Umum">Umum</option>
+                                    <option value="Administrasi">Administrasi</option>
+                                    <option value="Personalia">Personalia</option>
+                                    <option value="Keuangan">Keuangan</option>
+                                    <option value="Kas">Kas</option>
+                                    <option value="Pembukuan">Pembukuan</option>
+                                    <option value="Rekening">Rekening</option>
+                                    <option value="Pemeliharaan">Pemeliharaan</option>
+                                    <option value="Peralatan">Peralatan</option>
+                                    <option value="Perencanaan">Perencanaan</option>
+                                    <option value="Pengawasan">Pengawasan</option>
+                                    <option value="SPI">SPI</option>
+                                    <option value="A M D K">A M D K</option>
+                                    <option value="I T">I T</option>
+                                    <option value="Bondowoso">Bondowoso</option>
+                                    <option value="Sukosari 1">Sukosari 1</option>
+                                    <option value="Maesan">Maesan</option>
+                                    <option value="Tegalampel">Tegalampel</option>
+                                    <option value="Tapen">Tapen</option>
+                                    <option value="Prajekan">Prajekan</option>
+                                    <option value="Tlogosari">Tlogosari</option>
+                                    <option value="Wringin">Wringin</option>
+                                    <option value="Curahdami">Curahdami</option>
+                                    <option value="Tamanan">Tamanan</option>
+                                    <option value="Tenggarang">Tenggarang</option>
+                                    <option value="Tamankrocok">Tamankrocok</option>
+                                    <option value="Wonosari">Wonosari</option>
+                                    <option value="Sukosari 2">Sukosari 2</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-1 form-group row">
-                            <select class="form-select" name="sub_bagian" id="sub_bagian" required>
-                                <option value="">Sub Bagian</option>
-                                <option value="Langganan">Langganan</option>
-                                <option value="Penagihan">Penagihan</option>
-                                <option value="Umum">Umum</option>
-                                <option value="Administrasi">Administrasi</option>
-                                <option value="Personalia">Personalia</option>
-                                <option value="Keuangan">Keuangan</option>
-                                <option value="Kas">Kas</option>
-                                <option value="Pembukuan">Pembukuan</option>
-                                <option value="Rekening">Rekening</option>
-                                <option value="Pemeliharaan">Pemeliharaan</option>
-                                <option value="Peralatan">Peralatan</option>
-                                <option value="Perencanaan">Perencanaan</option>
-                                <option value="Pengawasan">Pengawasan</option>
-                                <option value="SPI">SPI</option>
-                                <option value="IT">IT</option>
-                                <option value="AMDK">AMDK</option>
-                            </select>
+                            <div class="col g-0">
+                                <select class="form-select" name="jabatan" id="jabatan" required>
+                                    <option value="">Jabatan</option>
+                                    <option value="Kabag">Kabag</option>
+                                    <option value="Ka UPK">Ka UPK</option>
+                                    <option value="Kasubag">Kasubag</option>
+                                    <option value="Pelaksana">Pelaksana</option>
+                                    <option value="Staf">Staf</option>
+                                </select>
+                            </div>
+                            <div class="col g-0">
+                                <select class="form-select" name="agama" id="agama" required>
+                                    <option value="">Agama</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Kepercayaan">Kepercayaan</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-1 form-group row">
-                            <!-- <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Jabatan" required> -->
-                            <select class="form-select" name="jabatan" id="jabatan" required>
-                                <option value="">Jabatan</option>
-                                <option value="Kabag">Kabag</option>
-                                <option value="Kasubag">Kasubag</option>
-                                <option value="Pelaksana">Pelaksana</option>
-                                <option value="Staf">Staf</option>
-                            </select>
+                            <div class="col g-0">
+                                <input type="number" class="form-control" id="no_hp" name="no_hp" placeholder="No HP/WA" required>
+                            </div>
+                            <div class="col g-0">
+                                <input type="number" class="form-control" id="nik" name="nik" placeholder="N I K" required>
+                            </div>
+                        </div>
+                        <div class="mb-1 form-group row">
+                            <div class="col g-0">
+                                <select class="form-select" name="jenkel" id="jenkel" required>
+                                    <option value="">Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Peremnpuan">Peremnpuan</option>
+                                </select>
+                            </div>
+                            <div class="col g-0">
+                                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="Tempat Lahir" required>
+                            </div>
+                        </div>
+                        <div class="mb-1 form-group row">
+                            <div class="col g-0">
+                                <div class="form-control">
+                                    Tanggal Lahir :
+                                </div>
+                            </div>
+                            <div class="col g-0">
+                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" placeholder="Tanggal Lahir :" required>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary" name="register">Submit</button>
                     </form>

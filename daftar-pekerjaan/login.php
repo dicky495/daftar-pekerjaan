@@ -70,27 +70,30 @@ if (isset($_POST["login"])) {
                             <h1>Login</h1>
                         </div>
                         <div class="mb-1  row">
-                            <input type="username" class="form-control" id="username" name="username" placeholder="Nama Lengkap" required>
+                            <input type="hidden" class="form-control" id="nama_depan" name="nama_depan" required value="">
+                        </div>
+                        <div class="mb-1  row">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Nama panggilan" required>
                         </div>
                         <div class="mb-1  row">
                             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                         </div>
                         <div class="mb-1  row">
                             <select class="form-select" name="bagian" id="bagian" required>
-                                <option value="">Bagian</option>
+                                <option value="">Bagian / UPK</option>
                                 <option value="Langganan">Langganan</option>
-                                <option value="Umum">Umum</option>
+                                <option value="U m u m">U m u m</option>
                                 <option value="Keuangan">Keuangan</option>
                                 <option value="Pemeliharaan">Pemeliharaan</option>
                                 <option value="Perencanaan">Perencanaan</option>
-                                <option value="SPI">SPI</option>
-                                <option value="IT">IT</option>
-                                <option value="AMDK">AMDK</option>
+                                <option value="S P I">S P I</option>
+                                <option value="U P K">U P K</option>
+                                <option value="A M D K">A M D K</option>
                             </select>
                         </div>
                         <div class="mb-1  row">
                             <select class="form-select" name="sub_bagian" id="sub_bagian" required>
-                                <option value="">Sub Bagian</option>
+                                <option value="">Sub Bagian / UPK</option>
                                 <option value="Langganan">Langganan</option>
                                 <option value="Penagihan">Penagihan</option>
                                 <option value="Umum">Umum</option>
@@ -105,8 +108,22 @@ if (isset($_POST["login"])) {
                                 <option value="Perencanaan">Perencanaan</option>
                                 <option value="Pengawasan">Pengawasan</option>
                                 <option value="SPI">SPI</option>
-                                <option value="IT">IT</option>
-                                <option value="AMDK">AMDK</option>
+                                <option value="A M D K">A M D K</option>
+                                <option value="I T">I T</option>
+                                <option value="Bondowoso">Bondowoso</option>
+                                <option value="Sukosari 1">Sukosari 1</option>
+                                <option value="Maesan">Maesan</option>
+                                <option value="Tegalampel">Tegalampel</option>
+                                <option value="Tapen">Tapen</option>
+                                <option value="Prajekan">Prajekan</option>
+                                <option value="Tlogosari">Tlogosari</option>
+                                <option value="Wringin">Wringin</option>
+                                <option value="Curahdami">Curahdami</option>
+                                <option value="Tamanan">Tamanan</option>
+                                <option value="Tenggarang">Tenggarang</option>
+                                <option value="Tamankrocok">Tamankrocok</option>
+                                <option value="Wonosari">Wonosari</option>
+                                <option value="Sukosari 2">Sukosari 2</option>
                             </select>
                         </div>
                         <div class="mb-1  row">
@@ -114,12 +131,16 @@ if (isset($_POST["login"])) {
                             <select class="form-select" name="jabatan" id="jabatan" required>
                                 <option value="">Jabatan</option>
                                 <option value="Kabag">Kabag</option>
+                                <option value="Ka UPK">Ka UPK</option>
                                 <option value="Kasubag">Kasubag</option>
                                 <option value="Pelaksana">Pelaksana</option>
                                 <option value="Staf">Staf</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" name="login">Login</button>
+                        <a href="lupapass.php" class="btn btn-success">
+                            Lupa Password
+                        </a>
                     </form>
                     <div align="center">
                         <p>belum punya akun ? </p>

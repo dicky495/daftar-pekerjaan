@@ -5,11 +5,17 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit;
 }
+if (isset($_SESSION["register"])) {
+    header("Location: index.php");
+    exit;
+}
 
 require "function.php";
 
-$table = trim(substr($_SESSION['username'], 0, 6));
-$list = trim(substr($_SESSION["username"], 0, 6)) . '_list';
+$table = $_SESSION['username'];
+$list = $_SESSION["username"] . '_list';
+// $table = trim(substr($_SESSION['username'], 0, 6));
+// $list = trim(substr($_SESSION["username"], 0, 6)) . '_list';
 
 if (isset($_GET['edit'])) {
 
