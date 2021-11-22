@@ -7,6 +7,7 @@ if (isset($_SESSION["login"])) {
 
 require "function.php";
 
+
 if (isset($_POST["login"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -28,6 +29,18 @@ if (isset($_POST["login"])) {
         if (password_verify($password, $row["password"])) {
 
             $_SESSION["login"] = true;
+            $_SESSION['nama_depan'] = $row['nama_depan'];
+            $_SESSION['nama_belakang'] = $row['nama_belakang'];
+            $_SESSION['tgl_lahir'] = $row['tgl_lahir'];
+            $_SESSION['tempat_lahir'] = $row['tempat_lahir'];
+            $_SESSION['jenkel'] = $row['jenkel'];
+            $_SESSION['no_hp'] = $row['no_hp'];
+            $_SESSION['nik'] = $row['nik'];
+            $_SESSION['bagian'] = $row['bagian'];
+            $_SESSION['sub_bagian'] = $row['sub_bagian'];
+            $_SESSION['jabatan'] = $row['jabatan'];
+            $_SESSION['agama'] = $row['agama'];
+
 
             header("Location: form_tanya.php");
             exit;
@@ -35,6 +48,7 @@ if (isset($_POST["login"])) {
     }
     $error = true;
 }
+
 
 ?>
 

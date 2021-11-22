@@ -41,7 +41,7 @@ if (isset($_POST["add_post"])) {
     <div class="container-fluid mt-1">
         <div class="row justify-content-center">
             <div class="col-sm-4 text-center">
-                <h3 class="text-dark"><?php echo $_SESSION['username']; ?></h3>
+                <h3 class="text-dark"><?php echo $_SESSION['nama_depan'] . ' ' . $_SESSION['nama_belakang']; ?></h3>
             </div>
         </div>
     </div>

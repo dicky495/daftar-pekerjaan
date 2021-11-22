@@ -5,10 +5,7 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit;
 }
-if (isset($_SESSION["register"])) {
-    header("Location: index.php");
-    exit;
-}
+
 
 require "function.php";
 
@@ -94,7 +91,7 @@ if (isset($_GET['delete'])) {
     <div class="container-fluid bg-info">
         <div class="row">
             <div class="col-sm-4 mt-1">
-                <a class="navbar-brand text-dark" href="#"><b><?php echo $_SESSION['username']; ?></b></a>
+                <a class="navbar-brand text-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Klik Untuk Melihat Profil" href="profil.php"><b><?php echo $_SESSION['nama_depan'] . ' ' . $_SESSION['nama_belakang']; ?></b></a>
             </div>
             <div class="col-sm-2 mt-1">
                 <p><b>BAGIAN : <?php echo $_SESSION['bagian']; ?></b></p>

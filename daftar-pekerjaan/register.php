@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require "function.php";
 
@@ -34,19 +35,6 @@ if (isset($_POST["register"])) {
     $query2 .= "date_task1 DATE,";
     $query2 .= "date_task2 DATE, PRIMARY KEY (id_task))";
     $hasil_query = mysqli_query($con, $query2);
-
-    $_SESSION['nama_depan'] = strtoupper($nama_depan);
-    $_SESSION['nama_belakang'] = strtoupper($nama_belakang);
-    $_SESSION['username'] = strtoupper($username);
-    $_SESSION['tgl_lahir'] = $tgl_lahir;
-    $_SESSION['tempat_lahir'] = $tempat_lahir;
-    $_SESSION['jenkel'] = $jenkel;
-    $_SESSION['no_hp'] = $no_hp;
-    $_SESSION['nik'] = $nik;
-    $_SESSION['bagian'] = strtoupper($bagian);
-    $_SESSION['sub_bagian'] = strtoupper($sub_bagian);
-    $_SESSION['jabatan'] = strtoupper($jabatan);
-    $_SESSION['agama'] = $agama;
 }
 
 ?>
@@ -190,7 +178,7 @@ if (isset($_POST["register"])) {
                                 <select class="form-select" name="jenkel" id="jenkel" required>
                                     <option value="">Jenis Kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Peremnpuan">Peremnpuan</option>
+                                    <option value="Peremnpuan">Perempuan</option>
                                 </select>
                             </div>
                             <div class="col g-0">

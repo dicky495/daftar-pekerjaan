@@ -1,4 +1,5 @@
 <?php
+
 $con = mysqli_connect("localhost", "root", "", "daftar_pekerjaan");
 if (!$con) {
     die("koneksi gagal : " . mysqli_connect_errno() . "-" . mysqli_connect_error());
@@ -22,6 +23,19 @@ function registrasi($data)
     $jenkel = strtoupper(stripcslashes($data['jenkel']));
     $tempat_lahir = strtoupper(stripcslashes($data['tempat_lahir']));
     $tgl_lahir = strtoupper(stripcslashes($data['tgl_lahir']));
+
+    // $_SESSION['nama_depan'] = strtoupper($nama_depan);
+    // $_SESSION['nama_belakang'] = strtoupper($nama_belakang);
+    // $_SESSION['username'] = strtoupper($username);
+    // $_SESSION['tgl_lahir'] = $tgl_lahir;
+    // $_SESSION['tempat_lahir'] = $tempat_lahir;
+    // $_SESSION['jenkel'] = $jenkel;
+    // $_SESSION['no_hp'] = $no_hp;
+    // $_SESSION['nik'] = $nik;
+    // $_SESSION['bagian'] = strtoupper($bagian);
+    // $_SESSION['sub_bagian'] = strtoupper($sub_bagian);
+    // $_SESSION['jabatan'] = strtoupper($jabatan);
+    // $_SESSION['agama'] = $agama;
 
     // cek duplikasi username
     $result = mysqli_query($con, "SELECT username FROM user WHERE username = '$username'");

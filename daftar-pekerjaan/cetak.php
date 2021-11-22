@@ -7,8 +7,10 @@ if (!isset($_SESSION["login"])) {
 }
 
 require "function.php";
-$table = trim(substr($_SESSION['username'], 0, 6));
+// $table = trim(substr($_SESSION['username'], 0, 6));
+$table = $_SESSION['username'];
 $nama = $_SESSION['username'];
+// $nama_depan = $_SESSION['nama_depan'];
 // $query = mysqli_query($con, "SELECT * FROM $table WHERE status_task2 = 'Selesai'");
 // $row = mysqli_fetch_assoc($query);
 // $bulan = strtoupper(date('F', strtotime($row['date_task2'])));
@@ -34,13 +36,13 @@ $nama = $_SESSION['username'];
     <div class="container-fluid bg-info">
         <div class="navbar1 row justify-content-center">
             <div class="col-sm-4 text-center mt-1">
-                <a href="index.php"><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kembali ke Halaman Utama" style="width: 75px;"><img src="img/backspace.svg" alt=""></button></a>
+                <a href="index.php"><button class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kembali ke Halaman Utama" style="width: 75px;"><img src="img/backspace.svg" alt=""></button></a>
             </div>
             <div class="col-sm-4 text-center mt-1">
-                <h3><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pilih Bulan dan Tahun" id="belum" style="width: 75px;"><img src="img/calendar3.svg" alt=""></button></h3>
+                <h3><button class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pilih Bulan dan Tahun" id="belum" style="width: 75px;"><img src="img/calendar3.svg" alt=""></button></h3>
             </div>
             <div class="col-sm-4 text-center mt-1">
-                <a href="#"><button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cetak File" id="cetak" style="width: 75px;"><img src="img/printer.svg" alt=""></button></a>
+                <a href="#"><button class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cetak File" id="cetak" style="width: 75px;"><img src="img/printer.svg" alt=""></button></a>
             </div>
         </div>
     </div>
@@ -110,7 +112,7 @@ $nama = $_SESSION['username'];
             <tbody>
                 <?php
                 $no = 1;
-                $table = trim(substr($_SESSION['username'], 0, 6));
+                $table = $_SESSION['username'];
                 $query = mysqli_query($con, "SELECT * FROM $table WHERE status_task2 = 'Selesai'");
                 if (isset($_POST["add_post"])) {
                     $tahun = $_POST['tahun'];
@@ -141,7 +143,8 @@ $nama = $_SESSION['username'];
                 <h6>Bondowoso, <?php echo date('d F Y'); ?></h6>
                 <h6 class="ttd ">Dibuat Oleh :</h6>
                 <br><br>
-                <h6><?php echo $nama; ?></h6>
+                <h6 class="mb-0"><u><?php echo $_SESSION['nama_depan'] . ' ' . $_SESSION['nama_belakang']; ?></u></h6>
+                <h6>Nik. <?php echo $_SESSION['nik']; ?></h6>
             </div>
         </div>
     </div>
