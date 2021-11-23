@@ -39,8 +39,8 @@ require "function.php";
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-6">
-                <div class="card">
-                    <h3 class="card-header">PROFIL KARYAWAN</h3>
+                <div class="card shadow-lg">
+                    <h3 class="card-header bg-primary text-light">PROFIL KARYAWAN</h3>
                     <div class="card-body">
                         <h5 class="card-title">Nama : <?php echo $_SESSION['nama_depan'] . ' ' . $_SESSION['nama_belakang']; ?></h5>
                         <h5 class="card-title">Nik : <?php echo $_SESSION['nik']; ?></h5>
@@ -49,7 +49,7 @@ require "function.php";
                         <h5 class="card-title">Jenis Kelamin : <?php echo $_SESSION['jenkel']; ?></h5>
                         <h5 class="card-title">Bagian : <?php echo $_SESSION['jabatan']  . ' - ' . $_SESSION['sub_bagian']; ?></h5>
 
-                        <a href="index.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kembali ke Halaman Utama" style="width: 75px;"><img src="img/x-circle.svg" alt=""></a>
+                        <a href="index.php" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Kembali ke Halaman Utama" style="width: 75px;"><img src="img/x-circle.svg" alt="" style="width: 2rem;"></a>
                     </div>
                 </div>
             </div>

@@ -101,12 +101,12 @@ if (isset($_GET['delete'])) {
             </div>
             <div class="col-sm-2 mt-1 text-end">
                 <a href="form_tanya.php">
-                    <button class="btn btn-outline-danger" type="submit">Tambah Pekerjaan</button>
+                    <button class="btn btn-outline-light" type="submit">Tambah Pekerjaan</button>
                 </a>
             </div>
             <div class="col-sm-1 mt-1 text-end">
                 <a href="#">
-                    <button class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Anda Akan Keluar" type="submit" id="tombol">Logout</button>
+                    <button class="btn btn-outline-light" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Anda Akan Keluar" type="submit" id="tombol" style="width: 75px;"><img src="img/box-arrow-right.svg" alt="" style="width: 1.2rem;"></button>
                 </a>
             </div>
         </div>

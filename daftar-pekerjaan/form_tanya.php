@@ -18,6 +18,9 @@ if (isset($_POST["add_post"])) {
 
     $query = mysqli_query($con, "INSERT INTO $list (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
 
+    // $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
+    // $insert_list = mysqli_query($con, $query_list);
+
     header("Location: index.php");
 }
 ?>
@@ -63,7 +66,7 @@ if (isset($_POST["add_post"])) {
                 <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Belum
                 </button> -->
-                <h3><button class="btn btn-danger" id="belum">Belum</button></h3>
+                <h3><button class="btn btn-danger" id="belum">Tambah Pekerjaan</button></h3>
             </div>
             <div class="col-sm-3">
                 <h3></h3>

@@ -41,7 +41,6 @@ if (isset($_POST["login"])) {
             $_SESSION['jabatan'] = $row['jabatan'];
             $_SESSION['agama'] = $row['agama'];
 
-
             header("Location: form_tanya.php");
             exit;
         }
@@ -146,6 +145,7 @@ if (isset($_POST["login"])) {
                                 <option value="">Jabatan</option>
                                 <option value="Kabag">Kabag</option>
                                 <option value="Ka UPK">Ka UPK</option>
+                                <option value="Manajer">Manajer</option>
                                 <option value="Kasubag">Kasubag</option>
                                 <option value="Pelaksana">Pelaksana</option>
                                 <option value="Staf">Staf</option>
