@@ -79,8 +79,13 @@ if (isset($_POST["login"])) {
                         </div>
                     <?php endif; ?>
                     <form action="" method="POST">
-                        <div class="text-center">
-                            <h1>Login</h1>
+                        <div class="row text-center">
+                            <div class="col-sm-2">
+                                <img src="img/pdam_biru.png" alt="" style="width: 3rem;">
+                            </div>
+                            <div class="col-sm-10">
+                                <h1>LOGIN</h1>
+                            </div>
                         </div>
                         <div class="mb-1  row">
                             <input type="hidden" class="form-control" id="nama_depan" name="nama_depan" required value="">
@@ -152,7 +157,7 @@ if (isset($_POST["login"])) {
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" name="login">Login</button>
-                        <a href="lupapass.php" class="btn btn-success">
+                        <a href="#" class="btn btn-success">
                             Lupa Password
                         </a>
                     </form>

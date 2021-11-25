@@ -21,20 +21,20 @@ if (isset($_POST["register"])) {
     $query .= "status_task2 VARCHAR(50), ";
     $query .= "tahun VARCHAR(4), ";
     $query .= "bulan VARCHAR(2), ";
-    $query .= "date_task1 DATE,";
-    $query .= "date_task2 DATE, PRIMARY KEY (id_task))";
+    $query .= "date_task1 DATETIME,";
+    $query .= "date_task2 DATETIME, PRIMARY KEY (id_task))";
     $hasil_query = mysqli_query($con, $query);
 
-    $list = $_POST["username"] . '_list';
-    $query2  = "CREATE TABLE $list (id_task INT(10) AUTO_INCREMENT, ";
-    $query2 .= "name_task VARCHAR(50),";
-    $query2 .= "status_task1 VARCHAR(50), ";
-    $query2 .= "status_task2 VARCHAR(50), ";
-    $query2 .= "tahun VARCHAR(4), ";
-    $query2 .= "bulan VARCHAR(2), ";
-    $query2 .= "date_task1 DATE,";
-    $query2 .= "date_task2 DATE, PRIMARY KEY (id_task))";
-    $hasil_query = mysqli_query($con, $query2);
+    // $list = $_POST["username"] . '_list';
+    // $query2  = "CREATE TABLE $list (id_task INT(10) AUTO_INCREMENT, ";
+    // $query2 .= "name_task VARCHAR(50),";
+    // $query2 .= "status_task1 VARCHAR(50), ";
+    // $query2 .= "status_task2 VARCHAR(50), ";
+    // $query2 .= "tahun VARCHAR(4), ";
+    // $query2 .= "bulan VARCHAR(2), ";
+    // $query2 .= "date_task1 DATE,";
+    // $query2 .= "date_task2 DATE, PRIMARY KEY (id_task))";
+    // $hasil_query = mysqli_query($con, $query2);
 }
 
 ?>
@@ -75,8 +75,13 @@ if (isset($_POST["register"])) {
                         </div>
                     <?php endif; ?>
                     <form action="" method="POST">
-                        <div class="text-center">
-                            <h1>REGISTER</h1>
+                        <div class="row text-center">
+                            <div class="col-sm-2">
+                                <img src="img/pdam_biru.png" alt="" style="width: 3rem;">
+                            </div>
+                            <div class="col-sm-10">
+                                <h1>REGISTER</h1>
+                            </div>
                         </div>
                         <div class="mb-1 form-group row">
                             <div class="col g-0">
@@ -179,7 +184,7 @@ if (isset($_POST["register"])) {
                                 <select class="form-select" name="jenkel" id="jenkel" required>
                                     <option value="">Jenis Kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Peremnpuan">Perempuan</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                             <div class="col g-0">

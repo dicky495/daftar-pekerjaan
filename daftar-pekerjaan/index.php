@@ -20,8 +20,8 @@ if (isset($_GET['edit'])) {
     $query_update = "UPDATE $table SET status_task1 = 'NULL',status_task2 = 'Selesai',date_task2 = now() Where id_task = '$id_task'";
     $update = mysqli_query($con, $query_update);
 
-    $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
-    $insert_list = mysqli_query($con, $query_list);
+    // $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
+    // $insert_list = mysqli_query($con, $query_list);
 
     header("Location: index.php");
 }
@@ -54,7 +54,7 @@ if (isset($_POST["ambil_data"])) {
         // window.location='index.php'</script>";
         $error = true;
     } else {
-        $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM $list ";
+        $query_insert = "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)SELECT name_task,'Pending',YEAR(now()),month(now()),now() FROM listjob WHERE username = '$table' ";
         $insert = mysqli_query($con, $query_insert);
         header("Location: index.php");
         exit;
@@ -64,7 +64,14 @@ if (isset($_POST["ambil_data"])) {
 
 if (isset($_GET['delete'])) {
     $id_task = $_GET['delete'];
-    $query = mysqli_query($con, "DELETE FROM $table WHERE id_task = '$id_task'");
+    $query = mysqli_query($con, "DELETE FROM $table WHERE id_task = '$id_task' AND status_task1 = 'Pending'");
+
+    header("Location: index.php");
+}
+if (isset($_GET['hapus'])) {
+    $id_list = $_GET['hapus'];
+    $query = mysqli_query($con, "DELETE FROM listjob WHERE id_list = '$id_list' AND status_task1 = 'Pending' AND username = '$table'");
+
     header("Location: index.php");
 }
 
@@ -115,17 +122,52 @@ if (isset($_GET['delete'])) {
     <div class="container-fluid">
         <div class="row g-1">
             <div class="col-md-6">
-                <!-- pending Pekerjaan -->
+                <!-- Daftar Tunggu Pekerjaan -->
                 <div class="card bg-danger shadow-lg border-0 text-center">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-8 g-0">
                                 <h3 class="text-light text-end">Daftar Tunggu Pekerjaan</h3>
                             </div>
-                            <div class="col-sm-4 text-end">
+                            <div class="col-sm-2 text-end g-0">
+                                <!-- Button trigger modal -->
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline-light data-bs-toggle=" tooltip data-bs-placement="bottom" title="Klik Untuk melihat Daftar Pekerjaan Anda" style="width: 4rem;"><img src=" img/list.png" alt="" style="width: 20px;"></button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary text-light">
+                                                <h5 class="modal-title" id="exampleModalLabel">DAFTAR PEKERJAAN</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php
+                                                $query = mysqli_query($con, "SELECT * FROM listjob WHERE username = '$table'");
+                                                while ($row = mysqli_fetch_array($query)) {
+                                                    $id_list = $row['id_list'];
+                                                ?>
+                                                    <li class="list-group-item text-start">
+                                                        <?php echo $row['name_task'] ?>
+                                                        <a href="index.php?hapus=<?php echo $id_list ?>" onclick="return confirm('Yakin Mau dihapus..?')">
+                                                            <span class="badge bg-danger" style="float: right;">Hapus</span>
+                                                        </a>
+                                                    </li>
+                                                <?php } ?>
+                                            </div>
+                                            <!-- <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2 text-end">
                                 <form action="" method="post">
                                     <input type="hidden" name="bulan" value="<?php echo date('m'); ?>" />
-                                    <button class="btn btn-outline-light" id="ambil_data" type="submit" name="ambil_data">Ambil Data</button>
+                                    <button class="btn btn-outline-light data-bs-toggle=" tooltip" data-bs-placement="bottom" title="Klik Untuk Download Daftar Pekerjaan" id="ambil_data" type="submit" name="ambil_data" style="width: 4rem;">
+                                        <img src="img/cloud-download.svg" alt="" style="width: 1.4rem;">
+                                    </button>
                                 </form>
                                 <!-- <button class="btn btn-outline-light" id="ambil_data" type="submit" name="ambil_data"> Data</button> -->
                             </div>
@@ -147,27 +189,24 @@ if (isset($_GET['delete'])) {
                                 <li class="list-group-item">
                                     <?php echo $name_task; ?>
                                     <div style="float: right;">
-                                        <!-- <a href="index.php?reset=<?php echo $id_task ?>">
-                                            <span class="reset badge bg-danger">reset</span>
-                                        </a> -->
                                         <a href="index.php?edit=<?php echo $id_task ?>">
-                                            <span class="proses badge bg-danger">Proses Baru</span>
+                                            <span class="proses badge bg-danger">Proses</span>
+                                        </a>
+                                        <a href="index.php?delete=<?php echo $id_task; ?>" onclick="return confirm('Yakin Mau dihapus..?')">
+                                            <span class="badge bg-danger">Hapus</span>
                                         </a>
                                     </div>
                                 </li>
                             <?php } ?>
                             <?php
-                            $query = mysqli_query($con, "SELECT * FROM $list WHERE status_task1 = 'Pending'");
+                            $query = mysqli_query($con, "SELECT * FROM listjob WHERE status_task1 = 'Pending' AND username = '$table'");
                             while ($row = mysqli_fetch_array($query)) {
-                                $id_task = $row['id_task'];
+                                $id_list = $row['id_list'];
                                 $name_task = $row['name_task'];
                             ?>
                                 <li class="daftar list-group-item" style="display: none;">
                                     <?php echo $name_task; ?>
                                     <div style="float: right;">
-                                        <!-- <a href="index.php?reset=<?php echo $id_task ?>">
-                                            <span class="reset badge bg-danger">reset</span>
-                                        </a> -->
                                         <a href="index.php?view=<?php echo $id_task ?>">
                                             <span class="proses2 badge bg-danger">Proses</span>
                                         </a>
@@ -178,7 +217,7 @@ if (isset($_GET['delete'])) {
                     </div>
                 </div>
             </div>
-            <!-- todolist selesai -->
+            <!-- Pekerjaan selesai -->
             <div class="col-md-6">
                 <div class="card bg-primary shadow-lg border-0">
                     <div class="card-body">
@@ -189,7 +228,7 @@ if (isset($_GET['delete'])) {
                             <div class="col-sm-3 text-end">
                                 <a href="cetak.php"><button class="btn btn-outline-light">
                                         <!-- <img src="img/printer.svg" alt="Modul Cetak"> -->
-                                        Lihat Daftar
+                                        Tampilkan
                                     </button></a>
                             </div>
                         </div>
@@ -249,10 +288,10 @@ if (isset($_GET['delete'])) {
         const proses = document.querySelectorAll('a .proses');
         for (let i = 0; i < proses.length; i++) {
             proses[i].addEventListener('mouseover', function() {
-                proses[i].innerHTML = "Pekerjaan telah Selesai";
+                proses[i].innerHTML = "Pekerjaan Selesai";
             });
             proses[i].addEventListener('mouseleave', function() {
-                proses[i].innerHTML = "Proses Baru";
+                proses[i].innerHTML = "Proses";
             });
         }
 

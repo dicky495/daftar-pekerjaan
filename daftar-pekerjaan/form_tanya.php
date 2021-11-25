@@ -8,7 +8,7 @@ if (!isset($_SESSION["login"])) {
 
 require "function.php";
 
-$table = trim(substr($_SESSION['username'], 0, 6));
+$table = $_SESSION['username'];
 $list = trim(substr($_SESSION["username"], 0, 6)) . '_list';
 if (isset($_POST["add_post"])) {
 
@@ -16,10 +16,9 @@ if (isset($_POST["add_post"])) {
 
     $query = mysqli_query($con, "INSERT INTO $table (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
 
-    $query = mysqli_query($con, "INSERT INTO $list (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
+    // $query = mysqli_query($con, "INSERT INTO $list (name_task, status_task1, tahun, bulan , date_task1)  VALUES ('$name_task', 'Pending', YEAR(now()), month(now()) , now())");
 
-    // $query_list = "INSERT INTO listjob (name_task,username,status_task1,status_task2,tahun,bulan,date_task1,date_task2)SELECT name_task,'$table','Pending',NULL,tahun,bulan,date_task1,date_task2 FROM $table WHERE id_task = '$id_task'";
-    // $insert_list = mysqli_query($con, $query_list);
+    $query = mysqli_query($con, "INSERT INTO listjob (name_task, username, status_task1, tahun, bulan,date_task1) VALUES ('$name_task','$table', 'Pending', YEAR(now()), month(now()) , now())");
 
     header("Location: index.php");
 }
@@ -51,7 +50,7 @@ if (isset($_POST["add_post"])) {
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-6 text-center">
-                <h3>Sudah Memiliki Daftar Pekerjaan...?</h3>
+                <h3>Apakah Sudah Memiliki Daftar Pekerjaan...?</h3>
             </div>
         </div>
         <br>
@@ -60,13 +59,13 @@ if (isset($_POST["add_post"])) {
                 <h3></h3>
             </div>
             <div class="col-sm-3 text-center">
-                <h3><a href="index.php"><button class="btn btn-primary">Sudah</button></a></h3>
+                <h3><a href="index.php"><button class="btn btn-primary" id="sudah">Sudah</button></a></h3>
             </div>
             <div class="col-sm-3 text-center">
                 <!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Belum
                 </button> -->
-                <h3><button class="btn btn-danger" id="belum">Tambah Pekerjaan</button></h3>
+                <h3><button class="btn btn-danger" id="belum">Belum</button></h3>
             </div>
             <div class="col-sm-3">
                 <h3></h3>
@@ -125,11 +124,21 @@ if (isset($_POST["add_post"])) {
     <script>
         const tanya = document.getElementById('tanya');
         const tombol_belum = document.getElementById('belum');
+        const tombol_sudah = document.getElementById('sudah');
 
         tombol_belum.addEventListener('click', function() {
             if (tanya.style.display == "none") {
                 tanya.style.display = "block";
             }
+        });
+        tombol_belum.addEventListener('mouseover', function() {
+            tombol_belum.innerHTML = "Tambah Pekerjaan";
+        });
+        tombol_sudah.addEventListener('mouseover', function() {
+            tombol_sudah.innerHTML = "Klik Untuk Kembali";
+        });
+        tombol_sudah.addEventListener('mouseout', function() {
+            tombol_sudah.innerHTML = "Sudah";
         });
     </script>
     <script src="js/bootstrap.bundle.js" crossorigin="anonymous"></script>
